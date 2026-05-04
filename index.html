@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Neighbourhood Clean Co. — Local Outdoor Cleaning</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #2F80ED; --blue-dark: #1C60B3; --blue-light: #EBF5FF;
+    --green: #27AE60; --green-light: #E8F8EF;
+    --bg: #F7F9FB; --white: #ffffff; --text: #1F2937;
+    --muted: #6B7280; --border: #E5E7EB; --radius: 12px; --radius-sm: 8px;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--bg); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+  nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .logo { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 15px; color: var(--blue); display: flex; align-items: center; gap: 6px; text-decoration: none; }
+  .logo span { color: var(--green); }
+  nav a.nav-link { font-size: 14px; color: var(--muted); text-decoration: none; font-weight: 500; display: none; }
+  @media (min-width: 640px) { nav a.nav-link { display: inline; margin-left: 24px; } }
+  .btn { display: inline-block; background: var(--blue); color: var(--white); border: none; padding: 10px 20px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; transition: background 0.15s; }
+  .btn:hover { background: var(--blue-dark); }
+  .btn-outline { background: transparent; color: var(--blue); border: 1.5px solid var(--blue); }
+  .btn-outline:hover { background: var(--blue-light); }
+  .btn-lg { padding: 14px 28px; font-size: 15px; }
+  .btn-white { background: var(--white); color: var(--blue); }
+  .btn-white:hover { background: #f0f7ff; }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    padding: 56px 24px 32px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    background: #0f1f35;
+  }
+
+  /* all hero content sits above photos */
+  .hero-content { position: relative; z-index: 2; margin-bottom: 32px; }
+
+  .badge { display: inline-block; background: rgba(255,255,255,0.15); color: #ffffff; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 18px; border: 1px solid rgba(255,255,255,0.25); }
+  h1 { font-family: 'Poppins', sans-serif; font-size: clamp(26px, 6vw, 38px); font-weight: 700; line-height: 1.2; color: #ffffff; margin-bottom: 16px; max-width: 600px; margin-left: auto; margin-right: auto; }
+  h1 em { color: #60B4FF; font-style: normal; }
+  .hero-sub { font-size: 16px; color: rgba(255,255,255,0.8); max-width: 440px; margin: 0 auto 28px; line-height: 1.7; }
+  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* 4 small photo thumbnails in a row at the bottom */
+  .hero-photos {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 4px;
+  }
+
+  .hero-photos img {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+    opacity: 0.85;
+    border: 1.5px solid rgba(255,255,255,0.15);
+  }
+
+  @media (max-width: 480px) {
+    .hero-photos { grid-template-columns: repeat(2, 1fr); }
+    .hero-photos img { height: 90px; }
+  }
+
+  .trust-bar { background: var(--bg); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+  .trust-pill { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--muted); }
+  .trust-pill .dot { width: 18px; height: 18px; border-radius: 50%; background: var(--green-light); color: var(--green); font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+
+  section { padding: 52px 24px; }
+  section.alt { background: var(--white); }
+  .section-tag { font-size: 11px; font-weight: 700; color: var(--green); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  h2 { font-family: 'Poppins', sans-serif; font-size: clamp(20px, 4vw, 26px); font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .section-sub { font-size: 15px; color: var(--muted); margin-bottom: 32px; line-height: 1.7; }
+
+  .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (min-width: 600px) { .services-grid { grid-template-columns: repeat(4, 1fr); } }
+  .service-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+  .service-card-top { padding: 20px 16px 16px; flex: 1; }
+  .service-card .icon { font-size: 24px; margin-bottom: 10px; }
+  .service-card h3 { font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; line-height: 1.4; }
+  .service-card p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  .pricing-toggle { width: 100%; background: var(--bg); border: none; border-top: 1px solid var(--border); padding: 9px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; color: var(--blue); transition: background 0.15s; }
+  .pricing-toggle:hover { background: var(--blue-light); }
+  .pricing-toggle .arrow { display: inline-block; transition: transform 0.2s ease; font-size: 11px; }
+  .pricing-body { max-height: 0; overflow: hidden; transition: max-height 0.25s ease, padding 0.2s ease; background: var(--white); padding: 0 16px; }
+  .pricing-body.open { max-height: 400px; padding: 12px 16px 14px; border-top: 1px solid var(--border); }
+  .price-section-head { font-size: 10px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.06em; margin: 10px 0 4px; }
+  .price-section-head:first-child { margin-top: 0; }
+  .price-row { display: flex; justify-content: space-between; align-items: baseline; padding: 3px 0; border-bottom: 1px solid #f3f4f6; }
+  .price-row:last-of-type { border-bottom: none; }
+  .price-label { font-size: 11px; color: var(--muted); }
+  .price-val { font-size: 12px; font-weight: 600; color: var(--text); white-space: nowrap; }
+  .price-note { font-size: 10px; color: var(--muted); margin-top: 7px; line-height: 1.5; font-style: italic; }
+
+  .steps { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  @media (min-width: 600px) { .steps { grid-template-columns: repeat(3, 1fr); } }
+  .step { text-align: center; padding: 8px; }
+  .step-num { width: 40px; height: 40px; border-radius: 50%; background: var(--blue-light); color: var(--blue); font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+  .step h3 { font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .step p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  .founder-section { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 52px 24px; }
+  .founder-card { display: flex; align-items: center; gap: 40px; max-width: 700px; margin: 0 auto; }
+  .founder-photo { width: 160px; height: 160px; border-radius: 50%; border: 4px solid var(--blue-light); overflow: hidden; flex-shrink: 0; }
+  .founder-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 15%; }
+  .founder-divider { width: 1px; height: 100px; background: var(--border); flex-shrink: 0; }
+  .founder-tag { display: inline-block; background: var(--green-light); color: var(--green); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; }
+  .founder-name { font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .founder-role { font-size: 13px; color: var(--muted); font-weight: 500; margin-bottom: 12px; }
+  .founder-bio { font-size: 14px; color: var(--muted); line-height: 1.8; }
+  @media (max-width: 560px) { .founder-card { flex-direction: column; text-align: center; } .founder-divider { display: none; } }
+  .cta-band { background: var(--blue); padding: 52px 24px; text-align: center; }
+  .cta-band h2 { color: var(--white); margin-bottom: 10px; }
+  .cta-band p { color: rgba(255,255,255,0.8); font-size: 15px; margin-bottom: 28px; }
+
+  footer { background: var(--text); padding: 28px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .footer-logo { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 14px; color: var(--white); }
+  .footer-logo span { color: var(--green); }
+  footer p { font-size: 12px; color: #9CA3AF; }
+  hr { border: none; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">💧 Neighbourhood <span>Clean Co.</span></a>
+  <div>
+    <a href="#services" class="nav-link">Services</a>
+    <a href="#how-it-works" class="nav-link">How it works</a>
+    <a href="quote.html" class="btn" style="padding: 8px 18px; font-size: 13px;">Get a Quote</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+
+  <!-- MAIN CONTENT -->
+  <div class="hero-content">
+    <div class="badge">Serving Your Neighbourhood</div>
+    <h1>Keeping Your Home Exterior <em>Clean, Fresh</em> & Looking Its Best All Summer</h1>
+    <p class="hero-sub">Reliable outdoor cleaning services right in your neighbourhood — bins, driveways, garages, and more.</p>
+    <div class="hero-btns">
+      <a href="quote.html" class="btn btn-lg">Get a Quote</a>
+      <a href="#services" class="btn btn-lg" style="background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.4);color:#fff;">See Our Services</a>
+    </div>
+  </div>
+
+  <!-- 4 SMALL PHOTO THUMBNAILS -->
+  <div class="hero-photos">
+    <img src="bins.jpg" alt="Garbage bin cleaning" />
+    <img src="driveway.jpg" alt="Driveway pressure washing" loading="lazy" />
+    <img src="garage.jpg" alt="Garage cleaning" loading="lazy" />
+    <img src="carwash.jpg" alt="Car exterior wash" loading="lazy" />
+  </div>
+
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-pill"><div class="dot">✓</div> Local student-run team</div>
+  <div class="trust-pill"><div class="dot">✓</div> Reliable & punctual</div>
+  <div class="trust-pill"><div class="dot">✓</div> Detail-focused every time</div>
+  <div class="trust-pill"><div class="dot">✓</div> Fast response</div>
+</div>
+
+<!-- SERVICES -->
+<section id="services" class="alt">
+  <div class="section-tag">Services</div>
+  <h2>Everything your home needs outside</h2>
+  <p class="section-sub">Simple, affordable outdoor cleaning — done while you relax.</p>
+  <div class="services-grid">
+
+    <div class="service-card">
+      <div class="service-card-top">
+        <div class="icon">🗑️</div>
+        <h3>Garbage Bin Cleaning</h3>
+        <p>Full sanitizing and deodorizing of outdoor waste bins. No more smells or residue.</p>
+      </div>
+      <button class="pricing-toggle" onclick="togglePricing(this)">View Pricing <span class="arrow">▾</span></button>
+      <div class="pricing-body">
+        <div class="price-section-head">One-time</div>
+        <div class="price-row"><span class="price-label">3 bins</span><span class="price-val">$50</span></div>
+        <div class="price-section-head">Weekly</div>
+        <div class="price-row"><span class="price-label">3 bins</span><span class="price-val">$25</span></div>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-card-top">
+        <div class="icon">💦</div>
+        <h3>Driveway Pressure Washing</h3>
+        <p>Blast away grime, oil stains, and dirt from concrete or interlocking.</p>
+      </div>
+      <button class="pricing-toggle" onclick="togglePricing(this)">View Pricing <span class="arrow">▾</span></button>
+      <div class="pricing-body">
+        <div class="price-row"><span class="price-label">One-car driveway</span><span class="price-val">$35</span></div>
+        <div class="price-row"><span class="price-label">Two-car driveway</span><span class="price-val">$55</span></div>
+        <div class="price-row"><span class="price-label">Alleyway</span><span class="price-val">$20</span></div>
+        <div class="price-row"><span class="price-label">Backyard</span><span class="price-val">$15 – $35</span></div>
+        <div class="price-note">+$20 per car space beyond 2 cars</div>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-card-top">
+        <div class="icon">🏚️</div>
+        <h3>Garage Cleaning</h3>
+        <p>Full sweep, mop, and debris removal. We clear the mess so you don't have to.</p>
+        <p style="font-size: 11px; color: var(--blue); font-weight: 600; margin-top: 8px; line-height: 1.5;">⚠ An adult must be present during service to identify items to keep or discard.</p>
+      </div>
+      <button class="pricing-toggle" onclick="togglePricing(this)">View Pricing <span class="arrow">▾</span></button>
+      <div class="pricing-body">
+        <div class="price-row"><span class="price-label">Per 3 hours</span><span class="price-val">$250</span></div>
+        <div class="price-note">*$85+ per hour after the 3rd hour</div>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-card-top">
+        <div class="icon">🚗</div>
+        <h3>Car Exterior Wash</h3>
+        <p>Hand exterior wash for a spotless finish — right in your driveway.</p>
+      </div>
+      <button class="pricing-toggle" onclick="togglePricing(this)">View Pricing <span class="arrow">▾</span></button>
+      <div class="pricing-body">
+        <div class="price-section-head">One-time</div>
+        <div class="price-row"><span class="price-label">Mid-size car</span><span class="price-val">$60</span></div>
+        <div class="price-row"><span class="price-label">Large car / Mid SUV</span><span class="price-val">$85</span></div>
+        <div class="price-row"><span class="price-label">Large SUV</span><span class="price-val">$115</span></div>
+        <div class="price-section-head">Weekly</div>
+        <div class="price-row"><span class="price-label">Mid-size car</span><span class="price-val">$35</span></div>
+        <div class="price-row"><span class="price-label">Large car / Mid SUV</span><span class="price-val">$55</span></div>
+        <div class="price-row"><span class="price-label">Large SUV</span><span class="price-val">$85</span></div>
+        <div class="price-section-head">Biweekly</div>
+        <div class="price-row"><span class="price-label">Mid-size car</span><span class="price-val">$55</span></div>
+        <div class="price-row"><span class="price-label">Large car / Mid SUV</span><span class="price-val">$75</span></div>
+        <div class="price-row"><span class="price-label">Large SUV</span><span class="price-val">$105</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr />
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works">
+  <div class="section-tag">Process</div>
+  <h2>How it works</h2>
+  <p class="section-sub">Three steps, zero hassle.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Request a quote</h3>
+      <p>Fill out our quote form. Tell us what you need and we'll get back to you within a few hours.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>We schedule your service</h3>
+      <p>Pick a day that works for you. We'll confirm and show up on time, ready to go.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>We clean, you relax</h3>
+      <p>Sit back while we handle everything. You'll see the difference right away.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER SECTION -->
+<div class="founder-section">
+  <div style="text-align:center; margin-bottom: 24px;">
+    <span class="founder-tag">Meet the founder</span>
+  </div>
+  <div class="founder-card">
+    <div class="founder-photo">
+      <img src="jack.jpg" alt="Jack Nadel — Founder of Neighbourhood Clean Co." />
+    </div>
+    <div class="founder-divider"></div>
+    <div>
+      <p class="founder-name">Jack Nadel</p>
+      <p class="founder-role">Founder & Owner · Neighbourhood Clean Co.</p>
+      <p class="founder-bio">First-year student and founder of Neighbourhood Clean Co. I started this business to provide reliable, detail-focused outdoor cleaning services to my community. Every job is done personally by me — no subcontractors, no shortcuts.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <h2>Ready for a cleaner home?</h2>
+  <p>Head over to our quote page — we'll get back to you fast.</p>
+  <a href="quote.html" class="btn btn-lg btn-white">Get a Quote →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">💧 Neighbourhood <span>Clean Co.</span></div>
+  <p>© 2025 · Simple. Reliable. Local.</p>
+</footer>
+
+<script>
+  function togglePricing(btn) {
+    const body = btn.nextElementSibling;
+    const opening = !body.classList.contains('open');
+    body.classList.toggle('open', opening);
+    btn.querySelector('.arrow').style.transform = opening ? 'rotate(180deg)' : 'rotate(0deg)';
+  }
+</script>
+</body>
+</html>

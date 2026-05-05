@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Request a Quote — Neighbourhood Clean Co.</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #2F80ED; --blue-dark: #1C60B3; --blue-light: #EBF5FF;
+    --green: #27AE60; --green-light: #E8F8EF;
+    --bg: #F7F9FB; --white: #ffffff; --text: #1F2937;
+    --muted: #6B7280; --border: #E5E7EB; --radius: 12px; --radius-sm: 8px;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--bg); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+  nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .logo { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 15px; color: var(--blue); display: flex; align-items: center; gap: 6px; text-decoration: none; }
+  .logo span { color: var(--green); }
+  nav a.nav-link { font-size: 14px; color: var(--muted); text-decoration: none; font-weight: 500; display: none; }
+  @media (min-width: 640px) { nav a.nav-link { display: inline; margin-left: 24px; } }
+  .btn { display: inline-block; background: var(--blue); color: var(--white); border: none; padding: 10px 20px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; transition: background 0.15s; }
+  .btn:hover { background: var(--blue-dark); }
+
+  .page-header { background: var(--white); padding: 40px 24px 36px; text-align: center; border-bottom: 1px solid var(--border); }
+  .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; margin-bottom: 20px; transition: color 0.15s; }
+  .back-link:hover { color: var(--blue); }
+  .page-header h1 { font-family: 'Poppins', sans-serif; font-size: clamp(22px, 5vw, 30px); font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .page-header p { font-size: 15px; color: var(--muted); max-width: 420px; margin: 0 auto; line-height: 1.7; }
+
+  section { padding: 48px 24px 64px; }
+  section.alt { background: var(--white); }
+
+  .form-wrap { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 0; max-width: 600px; margin: 0 auto; overflow: hidden; }
+  .form-section { padding: 24px 24px 8px; border-bottom: 1px solid var(--border); }
+  .form-section:last-of-type { border-bottom: none; }
+  .form-section-title { font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .form-section-num { width: 22px; height: 22px; border-radius: 50%; background: var(--blue); color: var(--white); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 14px; }
+  @media (min-width: 480px) { .form-grid { grid-template-columns: 1fr 1fr; } }
+  .form-grid-3 { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 14px; }
+  @media (min-width: 480px) { .form-grid-3 { grid-template-columns: 2fr 1fr; } }
+
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+  .field label { font-size: 12px; font-weight: 600; color: #374151; letter-spacing: 0.02em; }
+  .field input, .field textarea, .field select { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 13px; font-size: 14px; color: var(--text); font-family: 'DM Sans', sans-serif; width: 100%; outline: none; background: var(--white); transition: border-color 0.15s; }
+  .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--blue); }
+  .field textarea { height: 72px; resize: none; }
+  .field-hint { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .optional-tag { font-size: 10px; font-weight: 500; color: var(--muted); margin-left: 4px; }
+  .required-tag { font-size: 10px; font-weight: 700; color: #ef4444; margin-left: 4px; }
+
+  .select-wrap { position: relative; }
+  .select-wrap select { appearance: none; -webkit-appearance: none; padding-right: 32px; cursor: pointer; }
+  .select-wrap::after { content: '▾'; position: absolute; right: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 12px; pointer-events: none; }
+
+  .radio-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+  .radio-option { display: flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 12px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text); transition: border-color 0.15s, background 0.15s; }
+  .radio-option input[type="radio"] { accent-color: var(--blue); width: 15px; height: 15px; flex-shrink: 0; }
+  .radio-option:has(input:checked) { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
+
+  .day-group { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 4px; }
+  @media (max-width: 479px) { .day-group { grid-template-columns: repeat(3, 1fr); } }
+  .day-option { display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 6px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--muted); transition: border-color 0.15s, background 0.15s; text-align: center; }
+  .day-option input[type="radio"] { display: none; }
+  .day-option:has(input:checked) { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
+
+  .yesno-group { display: flex; gap: 8px; margin-top: 4px; }
+  .yesno-option { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--muted); transition: border-color 0.15s, background 0.15s; }
+  .yesno-option input[type="radio"] { accent-color: var(--blue); width: 14px; height: 14px; }
+  .yesno-option:has(input:checked) { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
+
+  .conditional { display: none; margin-top: 10px; }
+  .conditional.visible { display: block; }
+
+  /* SERVICE SLOTS */
+  .service-slot { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 10px; background: var(--bg); }
+  .service-slot-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .service-slot-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .remove-slot { background: none; border: none; color: var(--muted); font-size: 16px; cursor: pointer; line-height: 1; padding: 0 2px; transition: color 0.15s; }
+  .remove-slot:hover { color: #ef4444; }
+  .add-service-btn { width: 100%; background: transparent; border: 1.5px dashed var(--border); border-radius: var(--radius-sm); padding: 10px; font-size: 13px; font-weight: 600; color: var(--blue); font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.15s, border-color 0.15s; margin-bottom: 14px; }
+  .add-service-btn:hover { background: var(--blue-light); border-color: var(--blue); }
+
+  /* MULTI-SELECT CHECKBOXES */
+  .multi-check-group { display: flex; flex-direction: column; gap: 7px; margin-top: 6px; }
+  .multi-check-item { display: flex; align-items: center; justify-content: space-between; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 12px; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .multi-check-item:has(input:checked) { border-color: var(--blue); background: var(--blue-light); }
+  .multi-check-left { display: flex; align-items: center; gap: 8px; }
+  .multi-check-item input[type="checkbox"] { accent-color: var(--blue); width: 15px; height: 15px; flex-shrink: 0; cursor: pointer; }
+  .multi-check-item .item-label { font-size: 13px; font-weight: 500; color: var(--text); }
+  .multi-check-item .item-price { font-size: 12px; font-weight: 700; color: var(--blue); }
+
+  /* PRICE SUMMARY */
+  .price-summary { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; margin-top: 12px; display: none; }
+  .price-summary.visible { display: block; }
+  .price-summary-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .price-line { display: flex; justify-content: space-between; font-size: 13px; color: var(--text); padding: 3px 0; }
+  .price-line.total { border-top: 1px solid var(--border); margin-top: 8px; padding-top: 10px; font-weight: 700; font-size: 14px; color: var(--text); }
+  .price-line.total span:last-child { color: var(--blue); }
+
+  /* PAYMENT BOX */
+  .payment-box { background: var(--blue-light); border: 1px solid #BFDBFE; border-radius: var(--radius-sm); padding: 16px; margin-bottom: 16px; font-size: 13px; color: #1e40af; line-height: 1.7; }
+  .payment-box strong { display: block; font-family: 'Poppins', sans-serif; font-size: 13px; margin-bottom: 6px; color: var(--blue-dark); }
+
+  .checkbox-field { display: flex; align-items: flex-start; gap: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 12px; cursor: pointer; transition: border-color 0.15s; }
+  .checkbox-field:has(input:checked) { border-color: var(--blue); background: var(--blue-light); }
+  .checkbox-field input[type="checkbox"] { accent-color: var(--blue); width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; cursor: pointer; }
+  .checkbox-field span { font-size: 13px; color: var(--text); line-height: 1.6; }
+  .checkbox-field span strong { font-weight: 700; display: block; margin-bottom: 2px; font-size: 12px; color: #374151; }
+
+  .form-footer { padding: 20px 24px 24px; }
+  .submit-btn { width: 100%; background: var(--blue); color: var(--white); border: none; padding: 16px; border-radius: var(--radius-sm); font-size: 16px; font-weight: 700; font-family: 'Poppins', sans-serif; cursor: pointer; transition: background 0.15s; letter-spacing: 0.01em; }
+  .submit-btn:hover { background: var(--blue-dark); }
+  .submit-btn:disabled { background: var(--muted); cursor: not-allowed; }
+  .form-note { text-align: center; font-size: 12px; color: var(--muted); margin-top: 12px; }
+
+  footer { background: var(--text); padding: 28px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .footer-logo { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 14px; color: var(--white); }
+  .footer-logo span { color: var(--green); }
+  footer p { font-size: 12px; color: #9CA3AF; }
+
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 999; align-items: center; justify-content: center; padding: 24px; }
+  .modal-overlay.show { display: flex; }
+  .modal { background: var(--white); border-radius: 16px; padding: 32px 28px; max-width: 440px; width: 100%; text-align: center; }
+  .modal-icon { width: 56px; height: 56px; border-radius: 50%; background: var(--green-light); color: var(--green); font-size: 24px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+  .modal h3 { font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+  .modal p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+  .modal-btns { display: flex; flex-direction: column; gap: 10px; }
+  .cal-btn { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 16px; font-size: 13px; font-weight: 600; color: var(--text); font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; transition: background 0.15s; }
+  .cal-btn:hover { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+  .modal-close { background: none; border: none; font-size: 13px; color: var(--muted); cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 4px; padding: 6px; }
+  .modal-close:hover { color: var(--text); }
+</style>
+</head>
+<body>
+
+<!-- THANK YOU MODAL -->
+<div class="modal-overlay" id="thank-you-modal">
+  <div class="modal">
+    <div class="modal-icon">✓</div>
+    <h3>Thank you for your request!</h3>
+    <p>Your order confirmation has been sent to your email. We'll follow up within a few hours to confirm your booking.</p>
+    <div class="modal-btns">
+      <a id="cal-download" class="cal-btn" href="#" download="neighbourhood-clean-co.ics">📅 Add to Calendar</a>
+    </div>
+    <button class="modal-close" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">💧 Neighbourhood <span>Clean Co.</span></a>
+  <div>
+    <a href="index.html#services" class="nav-link">Services</a>
+    <a href="index.html#how-it-works" class="nav-link">How it works</a>
+    <a href="index.html" class="btn" style="padding: 8px 18px; font-size: 13px;">← Back to Home</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <a href="index.html" class="back-link">← Back to Home</a>
+  <h1>Request a Quote</h1>
+  <p>Fill in your details below and we'll follow up within a few hours to confirm your booking.</p>
+</div>
+
+<!-- FORM -->
+<section class="alt">
+  <div class="form-wrap">
+    <form id="quote-form" name="quote-form" method="POST" data-netlify="true">
+      <input type="hidden" name="form-name" value="quote-form" />
+      <input type="hidden" name="services" id="services-hidden" />
+      <input type="hidden" name="total_price" id="total-price-hidden" />
+
+      <!-- ── SECTION 1: CONTACT INFO ── -->
+      <div class="form-section">
+        <div class="form-section-title"><span class="form-section-num">1</span> Contact Info</div>
+        <div class="form-grid">
+          <div class="field" style="margin-bottom:0;">
+            <label>First name <span class="required-tag">*</span></label>
+            <input type="text" name="first-name" placeholder="Jane" required />
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label>Last name <span class="required-tag">*</span></label>
+            <input type="text" name="last-name" placeholder="Smith" required />
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label>Phone number <span class="required-tag">*</span></label>
+            <input type="tel" name="phone" placeholder="(416) 555-0100" required />
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label>Email address <span class="required-tag">*</span></label>
+            <input type="email" name="email" id="customer-email" placeholder="jane@email.com" required />
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECTION 2: SERVICE ADDRESS ── -->
+      <div class="form-section">
+        <div class="form-section-title"><span class="form-section-num">2</span> Service Address</div>
+        <div class="form-grid-3" style="margin-bottom: 14px;">
+          <div class="field" style="margin-bottom:0;">
+            <label>Street address <span class="required-tag">*</span></label>
+            <input type="text" name="address" placeholder="123 Main St" required />
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label>Unit / Apt <span class="optional-tag">(optional)</span></label>
+            <input type="text" name="unit" placeholder="Apt 2B" />
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="field" style="margin-bottom:0;">
+            <label>City</label>
+            <input type="text" name="city" placeholder="Toronto" />
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label>Postal code <span class="required-tag">*</span></label>
+            <input type="text" name="postal-code" placeholder="M1A 1A1" maxlength="7" style="text-transform:uppercase;" required />
+          </div>
+        </div>
+        <div class="field" style="margin-top: 14px;">
+          <label>Where are your bins usually located? <span class="required-tag">*</span></label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="bin-location" value="End of driveway" required /> End of driveway</label>
+            <label class="radio-option"><input type="radio" name="bin-location" value="Side of house" /> Side of house</label>
+            <label class="radio-option"><input type="radio" name="bin-location" value="Backyard" /> Backyard</label>
+            <label class="radio-option"><input type="radio" name="bin-location" value="Garage" /> Garage</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECTION 3: GARBAGE PICKUP DETAILS ── -->
+      <div class="form-section">
+        <div class="form-section-title"><span class="form-section-num">3</span> Garbage Pickup Details</div>
+        <div class="field">
+          <label>What day is your garbage collected? <span class="required-tag">*</span></label>
+          <div class="day-group">
+            <label class="day-option"><input type="radio" name="pickup-day" value="Monday" required />Monday</label>
+            <label class="day-option"><input type="radio" name="pickup-day" value="Tuesday" />Tuesday</label>
+            <label class="day-option"><input type="radio" name="pickup-day" value="Wednesday" />Wednesday</label>
+            <label class="day-option"><input type="radio" name="pickup-day" value="Thursday" />Thursday</label>
+            <label class="day-option"><input type="radio" name="pickup-day" value="Friday" />Friday</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECTION 4: ACCESS & INSTRUCTIONS ── -->
+      <div class="form-section">
+        <div class="form-section-title"><span class="form-section-num">4</span> Access & Instructions</div>
+        <div class="field">
+          <label>Are there any gates or locks? <span class="required-tag">*</span></label>
+          <div class="yesno-group">
+            <label class="yesno-option"><input type="radio" name="has-gates" value="Yes" required onchange="toggleConditional('gates-instructions', true)" /> Yes</label>
+            <label class="yesno-option"><input type="radio" name="has-gates" value="No" onchange="toggleConditional('gates-instructions', false)" /> No</label>
+          </div>
+          <div class="conditional" id="gates-instructions">
+            <div class="field" style="margin-bottom:0; margin-top:10px;">
+              <label>Access instructions</label>
+              <textarea name="gate-instructions" placeholder="e.g. Gate code is 1234, latch is on the left side"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Are there pets on the property? <span class="required-tag">*</span></label>
+          <div class="yesno-group">
+            <label class="yesno-option"><input type="radio" name="has-pets" value="Yes" required /> Yes</label>
+            <label class="yesno-option"><input type="radio" name="has-pets" value="No" /> No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Notes for finding location / special instructions <span class="optional-tag">(optional)</span></label>
+          <textarea name="location-notes" placeholder='e.g. "Behind fence on left side"'></textarea>
+        </div>
+      </div>
+
+      <!-- ── SECTION 5: SERVICES NEEDED ── -->
+      <div class="form-section">
+        <div class="form-section-title"><span class="form-section-num">5</span> Services Needed</div>
+        <div id="service-slots"></div>
+        <button type="button" class="add-service-btn" id="add-service-btn" onclick="addServiceSlot()">+ Add another service</button>
+
+        <!-- PRICE SUMMARY -->
+        <div class="price-summary" id="price-summary">
+          <div class="price-summary-title">Estimated Total</div>
+          <div id="price-lines"></div>
+<div class="price-line total">
+            <span>Total</span>
+            <span id="price-total">$0</span>
+          </div>
+          <div class="field-hint" style="margin-top: 8px;">Final price confirmed when we follow up.</div>
+        </div>
+      </div>
+
+      <!-- ── SECTION 6: PAYMENT ── -->
+      <div class="form-section">
+        <div class="form-section-title"><span class="form-section-num">6</span> Payment</div>
+        <div class="payment-box">
+          <strong>Payment Instructions</strong>
+          I don't give out receipts at this time.<br />
+          Please pay me by the <strong>Saturday after</strong> I have performed the service.<br />
+          Payment method is via e-transfer sent to: <strong>jacktnadel@gmail.com</strong>
+        </div>
+        <label class="checkbox-field">
+          <input type="checkbox" name="payment-acknowledged" id="payment-ack" required />
+          <span><strong>Acknowledgment (Required)</strong>I understand and agree to the payment terms above.</span>
+        </label>
+      </div>
+
+      <!-- ── SECTION 7: REFERRAL ── -->
+      <div class="form-section">
+        <div class="form-section-title"><span class="form-section-num">7</span> Referral <span style="font-size:11px; font-weight:500; color:var(--muted); margin-left:4px;">(optional)</span></div>
+        <div class="form-grid">
+          <div class="field" style="margin-bottom:0;">
+            <label>How did you hear about us?</label>
+            <div class="select-wrap">
+              <select name="referral-source">
+                <option value="" disabled selected>Select one</option>
+                <option>Facebook group</option>
+                <option>WhatsApp group</option>
+                <option>Poster / flyer</option>
+                <option>Friend or neighbour</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label>Referral name <span class="optional-tag">(optional)</span></label>
+            <input type="text" name="referral-name" id="referral-name-input" placeholder="e.g. Sarah from next door" />
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECTION 8: AGREEMENT ── -->
+      <div class="form-section">
+        <div class="form-section-title"><span class="form-section-num">8</span> Agreement</div>
+        <label class="checkbox-field">
+          <input type="checkbox" name="terms-agreed" id="terms-agreed" required />
+          <span><strong>Terms & Conditions (Required)</strong>I agree to the service terms and understand that access to bins is required on cleaning day.</span>
+        </label>
+        <label class="checkbox-field">
+          <input type="checkbox" name="cancellation-agreed" id="cancellation-agreed" required />
+          <span><strong>Cancellation Policy (Required)</strong>I must provide at least one week (7 days) of notice in writing for any cancellation or change to my scheduled service. If I fail to provide at least 7 days' notice, I agree that I will still be charged for the upcoming week's scheduled service. This policy ensures that scheduled service time is reserved and compensated, even when short-notice cancellations prevent rebooking.</span>
+        </label>
+      </div>
+
+      <!-- ── SUBMIT ── -->
+      <div class="form-footer">
+        <button type="button" class="submit-btn" onclick="handleSubmit()">Send Quote Request →</button>
+        <p class="form-note">An order confirmation will be emailed to you automatically. We typically respond within a few hours.</p>
+      </div>
+
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">💧 Neighbourhood <span>Clean Co.</span></div>
+  <p>© 2025 · Simple. Reliable. Local.</p>
+</footer>
+
+<script>
+  /* ── CONDITIONAL SHOW/HIDE ── */
+  function toggleConditional(id, show) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('visible', show);
+  }
+
+  /* ── PRICING DATA ── */
+  const PRICES = {
+    // Bin
+    'One-time (3 bins)': 50,
+    'Weekly (3 bins)': 25,
+    // Driveway
+    'One-car driveway': 35,
+    'Two-car driveway': 55,
+    'Alleyway': 20,
+    'Backyard': 25,
+    'Larger driveway (3+ cars)': 75,
+    // Garage
+    'Standard (3-hour minimum)': 250,
+    // Car — one-time
+    'One-time — Mid-size car': 60,
+    'One-time — Large car / Mid SUV': 85,
+    'One-time — Large SUV': 115,
+    // Car — weekly
+    'Weekly — Mid-size car': 35,
+    'Weekly — Large car / Mid SUV': 55,
+    'Weekly — Large SUV': 85,
+    // Car — biweekly
+    'Biweekly — Mid-size car': 55,
+    'Biweekly — Large car / Mid SUV': 75,
+    'Biweekly — Large SUV': 105
+  };
+
+  /* ── SERVICE DEFINITIONS ── */
+  // Single-select services (dropdown)
+  const singleSelectServices = {
+    bin:    { label: 'Garbage Bin Cleaning',    options: ['One-time (3 bins)', 'Weekly (3 bins)'] },
+    garage: { label: 'Garage Cleaning',         options: ['Standard (3-hour minimum)'] }
+  };
+
+  // Multi-select services (checkboxes)
+  const multiSelectServices = {
+    driveway: {
+      label: 'Driveway Pressure Washing',
+      options: [
+        { label: 'One-car driveway',       price: 35  },
+        { label: 'Two-car driveway',       price: 55  },
+        { label: 'Alleyway',               price: 20  },
+        { label: 'Backyard',               price: 25  },
+        { label: 'Larger driveway (3+ cars)', price: 75 }
+      ]
+    },
+    car: {
+      label: 'Car Exterior Wash',
+      options: [
+        { label: 'One-time — Mid-size car',        price: 60  },
+        { label: 'One-time — Large car / Mid SUV', price: 85  },
+        { label: 'One-time — Large SUV',           price: 115 },
+        { label: 'Weekly — Mid-size car',          price: 35  },
+        { label: 'Weekly — Large car / Mid SUV',   price: 55  },
+        { label: 'Weekly — Large SUV',             price: 85  },
+        { label: 'Biweekly — Mid-size car',        price: 55  },
+        { label: 'Biweekly — Large car / Mid SUV', price: 75  },
+        { label: 'Biweekly — Large SUV',           price: 105 }
+      ]
+    }
+  };
+
+  const serviceLabels = {
+    bin: 'Garbage Bin Cleaning',
+    driveway: 'Driveway Pressure Washing',
+    garage: 'Garage Cleaning',
+    car: 'Car Exterior Wash'
+  };
+
+  const MAX_SLOTS = 4;
+  let slotCount = 0;
+
+  function addServiceSlot() {
+    if (slotCount >= MAX_SLOTS) return;
+    slotCount++;
+    const idx = slotCount;
+    const slot = document.createElement('div');
+    slot.className = 'service-slot';
+    slot.id = 'slot-' + idx;
+    const used = getUsedServices();
+
+    slot.innerHTML = `
+      <div class="service-slot-header">
+        <span class="service-slot-label">Service ${idx}${idx === 1 ? ' <span style="color:#ef4444;font-size:10px;">*</span>' : ''}</span>
+        ${idx > 1 ? `<button type="button" class="remove-slot" onclick="removeSlot(${idx})" title="Remove">✕</button>` : ''}
+      </div>
+      <div class="field" style="margin-bottom:10px;">
+        <div class="select-wrap">
+          <select id="service-${idx}" onchange="updateSlotSub(${idx})">
+            <option value="" disabled selected>Select a service</option>
+            ${Object.entries(serviceLabels).map(([v,l]) => `<option value="${v}" ${used.includes(v)?'disabled':''}>${l}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div id="sub-field-${idx}" style="display:none;"></div>`;
+
+    document.getElementById('service-slots').appendChild(slot);
+    refreshAddButton();
+  }
+
+  function updateSlotSub(idx) {
+    const svc = document.getElementById('service-' + idx).value;
+    const subField = document.getElementById('sub-field-' + idx);
+    subField.style.display = 'none';
+    subField.innerHTML = '';
+
+    if (!svc) { updatePriceSummary(); return; }
+
+    if (singleSelectServices[svc]) {
+      const data = singleSelectServices[svc];
+      const wrap = document.createElement('div');
+      wrap.className = 'field';
+      wrap.style.marginBottom = '0';
+
+      if (data.options.length === 1) {
+        // Auto-select single option (garage)
+        wrap.innerHTML = `<div style="font-size:13px; color:var(--muted); padding: 6px 0;">${data.options[0]} — <strong style="color:var(--text);">$${PRICES[data.options[0]] || ''}</strong></div>
+          <input type="hidden" id="sub-${idx}" value="${data.options[0]}" />`;
+      } else {
+        const sel = document.createElement('select');
+        sel.id = 'sub-' + idx;
+        sel.className = 'field';
+        sel.style.cssText = 'border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 13px;font-size:14px;width:100%;outline:none;';
+        sel.innerHTML = `<option value="" disabled selected>Select an option</option>` +
+          data.options.map(o => `<option value="${o}">${o} — $${PRICES[o] || ''}</option>`).join('');
+        sel.addEventListener('change', updatePriceSummary);
+        const selWrap = document.createElement('div');
+        selWrap.className = 'select-wrap';
+        selWrap.appendChild(sel);
+        wrap.appendChild(selWrap);
+      }
+      subField.appendChild(wrap);
+
+    } else if (multiSelectServices[svc]) {
+      const data = multiSelectServices[svc];
+      const wrap = document.createElement('div');
+      wrap.innerHTML = `<div style="font-size:12px;font-weight:600;color:#374151;margin-bottom:6px;">Select all that apply <span style="color:#ef4444;">*</span></div>
+        <div class="multi-check-group" id="multi-${idx}">
+          ${data.options.map((o,i) => `
+            <label class="multi-check-item">
+              <div class="multi-check-left">
+                <input type="checkbox" id="multi-${idx}-${i}" value="${o.label}" onchange="updatePriceSummary()" />
+                <span class="item-label">${o.label}</span>
+              </div>
+              <span class="item-price">$${o.price}</span>
+            </label>`).join('')}
+        </div>`;
+      subField.appendChild(wrap);
+    }
+
+    subField.style.display = 'block';
+    refreshAllSlotOptions();
+    refreshAddButton();
+    updatePriceSummary();
+  }
+
+  function getSlotSelections(idx) {
+    const svc = document.getElementById('service-' + idx)?.value;
+    if (!svc) return [];
+
+    if (singleSelectServices[svc]) {
+      const subEl = document.getElementById('sub-' + idx);
+      const val = subEl?.value;
+      if (!val || val === '') return [];
+      const price = PRICES[val] || 0;
+      return [{ label: serviceLabels[svc] + ' (' + val + ')', price }];
+    }
+
+    if (multiSelectServices[svc]) {
+      const checks = document.querySelectorAll(`#multi-${idx} input[type="checkbox"]:checked`);
+      return Array.from(checks).map(c => ({
+        label: serviceLabels[svc] + ' (' + c.value + ')',
+        price: PRICES[c.value] || 0
+      }));
+    }
+    return [];
+  }
+
+  function updatePriceSummary() {
+    const slots = document.querySelectorAll('.service-slot');
+    let allItems = [];
+    slots.forEach((slot, i) => {
+      const idx = i + 1;
+      allItems = allItems.concat(getSlotSelections(idx));
+    });
+
+    const summary = document.getElementById('price-summary');
+    const linesEl = document.getElementById('price-lines');
+    const totalEl = document.getElementById('price-total');
+
+    if (allItems.length === 0) {
+      summary.classList.remove('visible');
+      return;
+    }
+
+    const total = allItems.reduce((sum, item) => sum + item.price, 0);
+    linesEl.innerHTML = allItems.map(item =>
+      `<div class="price-line"><span>${item.label}</span><span>$${item.price}</span></div>`
+    ).join('');
+    totalEl.textContent = '$' + total;
+    summary.classList.add('visible');
+  }
+
+  function removeSlot(idx) {
+    const s = document.getElementById('slot-' + idx);
+    if (s) s.remove();
+    slotCount--;
+    renumberSlots();
+    refreshAllSlotOptions();
+    refreshAddButton();
+    updatePriceSummary();
+  }
+
+  function renumberSlots() {
+    const slots = document.querySelectorAll('.service-slot');
+    slotCount = slots.length;
+    slots.forEach((slot, i) => {
+      const n = i + 1;
+      slot.id = 'slot-' + n;
+      const lbl = slot.querySelector('.service-slot-label');
+      if (lbl) lbl.innerHTML = 'Service ' + n + (n === 1 ? ' <span style="color:#ef4444;font-size:10px;">*</span>' : '');
+      const ss = slot.querySelector('select[id^="service-"]');
+      if (ss) { ss.id = 'service-' + n; ss.setAttribute('onchange', `updateSlotSub(${n})`); }
+      const rb = slot.querySelector('.remove-slot');
+      if (rb) { if (n === 1) rb.remove(); else rb.setAttribute('onclick', `removeSlot(${n})`); }
+    });
+  }
+
+  function getUsedServices() {
+    return Array.from(document.querySelectorAll('select[id^="service-"]')).map(s => s.value).filter(Boolean);
+  }
+
+  function refreshAllSlotOptions() {
+    const used = getUsedServices();
+    document.querySelectorAll('select[id^="service-"]').forEach(sel => {
+      const cur = sel.value;
+      Array.from(sel.options).forEach(opt => {
+        if (!opt.value) return;
+        opt.disabled = used.includes(opt.value) && opt.value !== cur;
+      });
+    });
+  }
+
+  function refreshAddButton() {
+    const btn = document.getElementById('add-service-btn');
+    const used = getUsedServices();
+    btn.style.display = (slotCount >= MAX_SLOTS || used.length >= MAX_SLOTS) ? 'none' : 'block';
+  }
+
+  addServiceSlot();
+
+  /* ── ICS CALENDAR ── */
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function buildICS(name, services, address) {
+    const now = new Date();
+    const y = now.getFullYear(), m = pad(now.getMonth() + 1), d = pad(now.getDate());
+    const h = pad(now.getHours() + 1);
+    const start = `${y}${m}${d}T${h}0000`;
+    const end   = `${y}${m}${d}T${pad(now.getHours() + 2)}0000`;
+    return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Neighbourhood Clean Co//EN',
+      'BEGIN:VEVENT','DTSTART:'+start,'DTEND:'+end,
+      'SUMMARY:Neighbourhood Clean Co. — '+services,
+      'DESCRIPTION:Client: '+name+'\\nServices: '+services+'\\nAddress: '+address,
+      'LOCATION:'+address,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  }
+
+  /* ── SUPABASE CONFIG ── */
+  const SUPABASE_URL      = 'https://gzrvfylugewtfjhiqjcz.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_EqSxeq3_A3ttF9kNEzAi1g_8p3Upnrc';
+  const SUPABASE_EDGE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6cnZmeWx1Z2V3dGZqaGlxamN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3NDYyNjIsImV4cCI6MjA5MzMyMjI2Mn0.FYwcZDDKbxkv64t0mAzKAbiJqxajY2SDNkx3deP0Mn0';
+
+  /* ── EMAIL RECEIPT (Supabase Edge Function) ── */
+  async function sendOrderConfirmationEmail(data) {
+    const { firstName, lastName, email, serviceLines, total, fullAddress } = data;
+
+    const itemsHtml = serviceLines.map(item =>
+      `<tr><td style="padding:6px 0;font-size:14px;color:#1F2937;">${item.label}</td>
+       <td style="padding:6px 0;font-size:14px;color:#1F2937;text-align:right;">$${item.price}</td></tr>`
+    ).join('');
+
+    const html = `
+<!DOCTYPE html><html><body style="font-family:'DM Sans',Arial,sans-serif;background:#F7F9FB;margin:0;padding:24px;">
+<div style="max-width:520px;margin:0 auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #E5E7EB;">
+  <div style="background:#2F80ED;padding:28px 32px;">
+    <div style="font-size:18px;font-weight:700;color:#ffffff;">💧 Neighbourhood Clean Co.</div>
+  </div>
+  <div style="padding:32px;">
+    <h2 style="font-size:20px;font-weight:700;color:#1F2937;margin:0 0 6px;">Order Confirmation</h2>
+    <p style="font-size:14px;color:#6B7280;margin:0 0 24px;">Hi ${firstName}, your order has been confirmed. Here is a summary of the services you have requested.</p>
+
+    <div style="background:#F7F9FB;border-radius:8px;padding:20px;margin-bottom:24px;">
+      <div style="font-size:11px;font-weight:700;color:#27AE60;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;">Services Ordered</div>
+      <table style="width:100%;border-collapse:collapse;">
+        ${itemsHtml}
+        <tr style="border-top:1px solid #E5E7EB;">
+          <td style="padding:10px 0 4px;font-size:15px;font-weight:700;color:#1F2937;">Estimated Total</td>
+          <td style="padding:10px 0 4px;font-size:15px;font-weight:700;color:#2F80ED;text-align:right;">$${total}</td>
+        </tr>
+      </table>
+      <p style="font-size:11px;color:#6B7280;margin:8px 0 0;">Estimated total — final price confirmed when we follow up.</p>
+    </div>
+
+    <div style="background:#F7F9FB;border-radius:8px;padding:16px;margin-bottom:24px;">
+      <div style="font-size:11px;font-weight:700;color:#27AE60;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Service Address</div>
+      <div style="font-size:14px;color:#1F2937;">${fullAddress}</div>
+    </div>
+
+    <div style="background:#EBF5FF;border-radius:8px;padding:16px;margin-bottom:24px;font-size:13px;color:#1e40af;line-height:1.7;">
+      <strong style="display:block;margin-bottom:4px;font-size:13px;">Payment Reminder</strong>
+      Please pay by the <strong>Saturday after</strong> service is performed.<br/>
+      E-transfer to: <strong>jacktnadel@gmail.com</strong>
+    </div>
+
+    <p style="font-size:14px;color:#374151;margin:0 0 4px;">We'll be in touch shortly to confirm your booking.</p>
+  </div>
+  <div style="background:#1F2937;padding:20px 32px;text-align:center;">
+    <div style="font-size:13px;color:#ffffff;font-weight:700;margin-bottom:2px;">Jack Nadel</div>
+    <div style="font-size:12px;color:#9CA3AF;margin-bottom:2px;">jacktnadel@gmail.com</div>
+    <div style="font-size:12px;color:#9CA3AF;">Neighbourhood Clean Co.</div>
+  </div>
+</div>
+</body></html>`;
+
+    try {
+      await fetch(`${SUPABASE_URL}/functions/v1/quick-action`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_EDGE_KEY,
+          'Authorization': `Bearer ${SUPABASE_EDGE_KEY}`
+        },
+        body: JSON.stringify({ to: email, firstName, lastName, html })
+      });
+    } catch (e) {
+      console.warn('Email send failed (non-blocking):', e);
+    }
+  }
+
+  /* ── FORM SUBMIT ── */
+  async function handleSubmit() {
+    const firstName  = document.querySelector('input[name="first-name"]').value.trim();
+    const lastName   = document.querySelector('input[name="last-name"]').value.trim();
+    const phone      = document.querySelector('input[name="phone"]').value.trim();
+    const email      = document.querySelector('input[name="email"]').value.trim();
+    const address    = document.querySelector('input[name="address"]').value.trim();
+    const unit       = document.querySelector('input[name="unit"]').value.trim();
+    const city       = document.querySelector('input[name="city"]').value.trim();
+    const postal     = document.querySelector('input[name="postal-code"]').value.trim();
+    const binLoc     = document.querySelector('input[name="bin-location"]:checked');
+    const pickupDay  = document.querySelector('input[name="pickup-day"]:checked');
+    const hasGates   = document.querySelector('input[name="has-gates"]:checked');
+    const gateNotes  = document.querySelector('textarea[name="gate-instructions"]')?.value.trim();
+    const hasPets    = document.querySelector('input[name="has-pets"]:checked');
+    const locNotes   = document.querySelector('textarea[name="location-notes"]').value.trim();
+    const refSource  = document.querySelector('select[name="referral-source"]').value;
+    const refName    = document.getElementById('referral-name-input').value.trim();
+    const paymentAck   = document.getElementById('payment-ack');
+    const termsAgreed  = document.getElementById('terms-agreed');
+    const cancelAgreed = document.getElementById('cancellation-agreed');
+
+    /* Collect all service selections */
+    const slots = document.querySelectorAll('.service-slot');
+    let allItems = [];
+    slots.forEach((slot, i) => { allItems = allItems.concat(getSlotSelections(i + 1)); });
+    const servicesList = allItems.map(i => i.label).join(', ');
+    const total = allItems.reduce((sum, i) => sum + i.price, 0);
+
+    /* ── VALIDATION ── */
+    if (!firstName || !lastName)   { alert('Please enter your first and last name.'); return; }
+    if (!phone)                    { alert('Please enter your phone number.'); return; }
+    if (!email)                    { alert('Please enter your email address.'); return; }
+    if (!address || !postal)       { alert('Please enter your street address and postal code.'); return; }
+    if (!binLoc)                   { alert('Please select where your bins are located.'); return; }
+    if (!pickupDay)                { alert('Please select your garbage pickup day.'); return; }
+    if (!hasGates)                 { alert('Please indicate whether there are gates or locks.'); return; }
+    if (!hasPets)                  { alert('Please indicate whether there are pets on the property.'); return; }
+    if (!servicesList)             { alert('Please select at least one service in Service 1.'); return; }
+
+    /* Check first slot has a selection */
+    const firstSvc = document.getElementById('service-1')?.value;
+    if (!firstSvc)                 { alert('Please select a service for Service 1.'); return; }
+
+    /* Check multi-select slots have at least one checkbox if a multi-select service is chosen */
+    let multiError = false;
+    slots.forEach((slot, i) => {
+      const idx = i + 1;
+      const svc = document.getElementById('service-' + idx)?.value;
+      if (svc && multiSelectServices[svc]) {
+        const checked = document.querySelectorAll(`#multi-${idx} input:checked`);
+        if (checked.length === 0) { multiError = true; }
+      }
+    });
+    if (multiError) { alert('Please select at least one option for each multi-select service.'); return; }
+
+    if (!paymentAck.checked)       { alert('Please acknowledge the payment terms.'); return; }
+    if (!termsAgreed.checked)      { alert('Please agree to the Terms & Conditions.'); return; }
+    if (!cancelAgreed.checked)     { alert('Please agree to the Cancellation Policy.'); return; }
+
+    /* ── DISABLE BUTTON ── */
+    const submitBtn = document.querySelector('.submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    document.getElementById('services-hidden').value = servicesList;
+    document.getElementById('total-price-hidden').value = total;
+
+    const fullAddress = [address, unit, city, postal].filter(Boolean).join(', ');
+
+    /* ── SUPABASE INSERT ── */
+    const record = {
+      first_name: firstName, last_name: lastName, phone, email,
+      street_address: address, unit_apt: unit || null, city: city || null,
+      postal_code: postal.toUpperCase(),
+      bin_location: binLoc ? binLoc.value : null,
+      garbage_pickup_day: pickupDay ? pickupDay.value : null,
+      has_gates: hasGates ? hasGates.value === 'Yes' : null,
+      gate_instructions: gateNotes || null,
+      has_pets: hasPets ? hasPets.value === 'Yes' : null,
+      location_notes: locNotes || null,
+      services_requested: servicesList,
+      quoted_price: total,
+      referral_source: refSource || null,
+      referral_name: refName || null,
+      payment_acknowledged: true, terms_agreed: true, cancellation_agreed: true,
+      status: 'new', submitted_at: new Date().toISOString()
+    };
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/quote_requests`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(record)
+      });
+
+      if (!res.ok) {
+        const err = await res.text();
+        console.error('Supabase error:', err);
+        alert('Something went wrong saving your request. Please try again or contact us directly.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Quote Request →';
+        return;
+      }
+
+      /* ── SEND ORDER CONFIRMATION EMAIL (non-blocking) ── */
+      const emailData = {
+        firstName,
+        lastName,
+        email,
+        serviceLines: [...allItems],
+        total,
+        fullAddress
+      };
+      sendOrderConfirmationEmail(emailData)
+        .catch(e => console.warn('Email failed (non-blocking):', e));
+
+      /* ── REDIRECT TO THANK YOU PAGE ── */
+      setTimeout(() => { window.location.href = 'thankyou.html'; }, 1500);
+
+    } catch (err) {
+      console.error('Network error:', err);
+      alert('Could not connect. Please check your internet and try again.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Quote Request →';
+    }
+  }
+
+  function closeModal() {
+    document.getElementById('thank-you-modal').classList.remove('show');
+  }
+</script>
+</body>
+</html>

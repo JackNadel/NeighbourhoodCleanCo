@@ -214,8 +214,8 @@
         </div>
         <div class="form-grid">
           <div class="field" style="margin-bottom:0;">
-            <label>City</label>
-            <input type="text" name="city" placeholder="Toronto" />
+            <label>City <span class="required-tag">*</span></label>
+            <input type="text" name="city" placeholder="Toronto" required />
           </div>
           <div class="field" style="margin-bottom:0;">
             <label>Postal code <span class="required-tag">*</span></label>
@@ -233,13 +233,15 @@
         </div>
       </div>
 
+
+
       <!-- ── SECTION 3: GARBAGE PICKUP DETAILS ── -->
       <div class="form-section">
-        <div class="form-section-title"><span class="form-section-num">3</span> Garbage Pickup Details</div>
+        <div class="form-section-title"><span class="form-section-num">3</span> Garbage Pickup Details <span style="font-size:11px;font-weight:500;color:var(--muted);margin-left:4px;">(optional)</span></div>
         <div class="field">
-          <label>What day is your garbage collected? <span class="required-tag">*</span></label>
+          <label>What day is your garbage collected? <span class="optional-tag">(optional)</span></label>
           <div class="day-group">
-            <label class="day-option"><input type="radio" name="pickup-day" value="Monday" required />Monday</label>
+            <label class="day-option"><input type="radio" name="pickup-day" value="Monday" />Monday</label>
             <label class="day-option"><input type="radio" name="pickup-day" value="Tuesday" />Tuesday</label>
             <label class="day-option"><input type="radio" name="pickup-day" value="Wednesday" />Wednesday</label>
             <label class="day-option"><input type="radio" name="pickup-day" value="Thursday" />Thursday</label>
@@ -300,9 +302,7 @@
         <div class="form-section-title"><span class="form-section-num">6</span> Payment</div>
         <div class="payment-box">
           <strong>Payment Instructions</strong>
-          I don't give out receipts at this time.<br />
-          Please pay me by the <strong>Saturday after</strong> I have performed the service.<br />
-          Payment method is via e-transfer sent to: <strong>jacktnadel@gmail.com</strong>
+          Payment is due by the Saturday following your service. Please send an e-transfer to <strong>jacktnadel@gmail.com</strong> You will receive an order confirmation after submitting your request, and a receipt once payment has been received.
         </div>
         <label class="checkbox-field">
           <input type="checkbox" name="payment-acknowledged" id="payment-ack" required />
@@ -373,7 +373,7 @@
   const PRICES = {
     // Bin
     'One-time (3 bins)': 50,
-    'Weekly (3 bins)': 25,
+    'Weekly (2 bins, alternating)': 25,
     // Driveway
     'One-car driveway': 35,
     'Two-car driveway': 55,
@@ -399,7 +399,7 @@
   /* ── SERVICE DEFINITIONS ── */
   // Single-select services (dropdown)
   const singleSelectServices = {
-    bin:    { label: 'Garbage Bin Cleaning',    options: ['One-time (3 bins)', 'Weekly (3 bins)'] },
+    bin:    { label: 'Garbage Bin Cleaning',    options: ['One-time (3 bins)', 'Weekly (2 bins, alternating)'] },
     garage: { label: 'Garage Cleaning',         options: ['Standard (3-hour minimum)'] }
   };
 
@@ -494,13 +494,24 @@
         sel.style.cssText = 'border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 13px;font-size:14px;width:100%;outline:none;';
         sel.innerHTML = `<option value="" disabled selected>Select an option</option>` +
           data.options.map(o => `<option value="${o}">${o} — $${PRICES[o] || ''}</option>`).join('');
-        sel.addEventListener('change', updatePriceSummary);
+        sel.addEventListener('change', function() {
+          updatePriceSummary();
+          const hint = this.parentElement.parentElement.querySelector('.bin-hint');
+          if (hint) hint.style.display = this.value === 'Weekly (2 bins, alternating)' ? 'block' : 'none';
+        });
         const selWrap = document.createElement('div');
         selWrap.className = 'select-wrap';
         selWrap.appendChild(sel);
         wrap.appendChild(selWrap);
+        const hint = document.createElement('div');
+        hint.className = 'bin-hint field-hint';
+        hint.style.display = 'none';
+        hint.style.marginTop = '6px';
+        hint.innerHTML = 'Grey/Green bin one week, Blue/Green bin the next.';
+        wrap.appendChild(hint);
       }
       subField.appendChild(wrap);
+
 
     } else if (multiSelectServices[svc]) {
       const data = multiSelectServices[svc];
@@ -742,7 +753,6 @@
     if (!email)                    { alert('Please enter your email address.'); return; }
     if (!address || !postal)       { alert('Please enter your street address and postal code.'); return; }
     if (!binLoc)                   { alert('Please select where your bins are located.'); return; }
-    if (!pickupDay)                { alert('Please select your garbage pickup day.'); return; }
     if (!hasGates)                 { alert('Please indicate whether there are gates or locks.'); return; }
     if (!hasPets)                  { alert('Please indicate whether there are pets on the property.'); return; }
     if (!servicesList)             { alert('Please select at least one service in Service 1.'); return; }
